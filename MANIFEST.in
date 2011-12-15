@@ -1,0 +1,6 @@
+recursive-include conf *
+include requirements.txt
+include libs_requirements.txt
+include fabfile.py
+
+exclude pythonru/environment_settings.py

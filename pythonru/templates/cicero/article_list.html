@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% load future %}
+
+{% block feeds %}
+{{ block.super }}
+    <link rel="alternate" type="application/atom+xml" href="{% url "cicero_topic_feed" topic.forum.slug topic.id %}">
+{% endblock %}
+
+{% block content %}
+    {% for article in object_list %}
+        <div class="article row show-grid" id="{{ article.id }}">
+            <div class="meta span16">
+                <div class="row">
+                    <div class="span4">
+                        <span class="name">
+                            {% include "cicero/include/profile.html" with profile=article.author name=article.guest_name %}
+                        </span>
+                    </div>
+
+                    <div class="vote span2">
+                        <div class="up" title="Нравится пост">
+                            <span class="votes_up label success">{{ article.votes_up }}</span>
+                            {% if user.is_authenticated %}
+                            <form action="{% url "cicero.views.article_vote" article.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" class="btn success" value="&uarr;">
+                                <input type="hidden" name="vote" value="up">
+                            </form>
+                            {% endif %}
+                        </div>
+
+                        <div class="down" title="Не нравится пост">
+                            <span class="votes_down label important">{{ article.votes_down }}</span>
+                            {% if user.is_authenticated %}
+                            <form action="{% url "cicero.views.article_vote" article.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" class="btn danger" value="&darr;">
+                                <input type="hidden" name="vote" value="down">
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if profile.moderator or article.author == profile %}
+                    <div class="control span4">
+                        <form action="{% url "cicero.views.article_edit" article.id %}"><input type="submit" class="btn info" alt="Редактировать" title="Редактировать" value="Изменить"></form>
+                        <form action="{% url "cicero.views.article_delete" article.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn info" alt="Удалить" title="Удалить" value="Удалить">
+                    </form>
+                    </div>
+                    {% endif %}
+                    {% if profile.moderator %}
+                    <div class="control span3">
+                        <form action="{% url "cicero.views.article_spam" article.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn info" alt="Спам" title="Спам" value="Спам">
+                        </form>
+                        <form action="{% url "cicero.views.topic_spawn" article.id %}"><input type="submit" class="btn info" alt="Отщепить топик" title="Отщепить топик" value="Отщепить"></form>
+                    </div>
+                    {% endif %}
+                    <div class="time pull-right" title="{{ article.created|date:"d.m.Y H:i" }}">{{ article.created|date:"d.m.Y" }}</div>
+                </div> <!-- class=row -->
+            </div>
+            <div class="usertext span16 well">
+                <div>{{ article.html }}</div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% include "cicero/include/article_form.html" %}
+{% endblock %}

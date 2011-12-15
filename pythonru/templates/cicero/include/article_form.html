@@ -1,0 +1,28 @@
+{% load future %}
+<form action="{% if not article %}{% url "cicero-topic" forum.slug topic.id %}{% else %}{% url "cicero-article-edit" article.id %}{% endif %}" method="post" id="add" class="edit form-stacked well">
+    {% csrf_token %}
+    {% include "cicero/include/form_field.html" with field=form.filter %}
+    {% if user.is_authenticated %}
+        <p>
+            <label>Имя</label>
+            {% if article %}
+                {% include "cicero/include/profile.html" with profile=article.author name=article.guest_name %}
+            {% else %}
+                {% include "cicero/include/profile.html" %}
+            {% endif %}
+        </p>
+    {% else %}
+        {% include "cicero/include/form_field.html" with field=form.name %}
+    {% endif %}
+    <div id="preview">
+        <p><label>Предпросмотр</label>
+        <div class="usertext"></div>
+    </div>
+    {% include "cicero/include/form_field.html" with field=form.text %}
+    <p style="position: absolute; left: -1000px;">
+        <label>Это поле — ловушка для роботов, оставьте его пустым</label>
+        <input type="text" name="email" value="" tabindex="-1" autocomplete="off">
+    </p>
+    <div class="buttons"><button type="submit" class="btn primary">{% if not article %}Добавить{% else %}Изменить{% endif %}</button></div>
+</form>
+

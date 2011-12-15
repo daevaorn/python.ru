@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% load sitetree %}
+
+{% block title %}{% sitetree_breadcrumbs from "profile" template "cicero/tags/title.html" %}{% endblock %}
+
+{% block breadcrumb %}
+    {% sitetree_breadcrumbs from "profile" template "cicero/tags/breadcrumbs.html" %}
+{% endblock %}
+

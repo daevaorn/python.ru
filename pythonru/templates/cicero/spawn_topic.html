@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load future %}
+
+{% block content %}
+<form action="{% url "cicero-topic-spawn" article.id %}" method="post" id="spawn" class="form-stacked well">
+    {% csrf_token %}
+    {% include "cicero/include/form_field.html" with field=form.subject %}
+
+    <table id="reference">
+        <tr><th><label>Автор</label></th><td>{% include "cicero/include/profile.html" with profile=article.author name=article.guest_name %}</td></tr>
+        <tr>
+            <th><label>Текст</label></th>
+            <td class="usertext">{{ article.html }}</td>
+        </tr>
+    </table>
+
+    <table>
+        <h4>Еще поcты</h4>
+        {% for id, article in form.fields.articles.choices %}
+            <tr>
+                <td><input type="checkbox" name="articles" value="{{ id }}"></td>
+                <td>{% include "cicero/include/profile.html" with profile=article.author name=article.guest_name %}</td>
+                <td>{{ article.html|truncatewords_html:30 }}<td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include "cicero/include/form_field_errors.html" with field=form.articles %}
+
+    <div class="buttons"><button type="submit" class="btn primary">Отщепить</button></div>
+</form>
+{% endblock %}

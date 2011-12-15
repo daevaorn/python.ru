@@ -1,0 +1,27 @@
+# %(project)s-%(env)s
+#
+
+description	"%(project)s daemon at %(env)s environment"
+author		"Alex Koshelev <daevaorn@gmail.com>"
+
+console output
+
+start on runlevel [2345]
+
+pre-start script
+    if [ -e "%(socket)s" ]
+    then
+        rm "%(socket)s"
+    fi
+end script
+
+exec sudo -u %(www_user)s %(remote_manage)s runfcgi\
+                                         daemonize=false\
+                                         mode=prefork\
+                                         maxrequests=500\
+                                         socket="%(socket)s"\
+                                         minspare=%(minspare)s\
+                                         maxspare=%(maxspare)s\
+                                         maxchildren=%(maxchildren)s\
+
+respawn

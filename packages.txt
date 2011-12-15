@@ -1,0 +1,5 @@
+python-virtualenv
+python-pip
+python-imaging
+python-mysqldb
+python-openid

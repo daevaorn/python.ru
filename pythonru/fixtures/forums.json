@@ -1,0 +1,22 @@
+[
+  {
+    "pk": 50,
+    "model": "cicero.forum",
+    "fields": {
+      "ordering": 0,
+      "group": "",
+      "slug": "blog",
+      "name": "Блог"
+    }
+  },
+  {
+    "pk": 51,
+    "model": "cicero.forum",
+    "fields": {
+      "ordering": 0,
+      "group": "",
+      "slug": "status",
+      "name": "Статус"
+    }
+  }
+]

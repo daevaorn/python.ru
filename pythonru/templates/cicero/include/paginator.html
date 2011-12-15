@@ -1,0 +1,25 @@
+{% load query_exchange_tags %}
+
+{% if page.paginator.num_pages > 1 %}
+<div class="pagination">
+    <ul class="step-links">
+        <li class="prev{% if not page.has_previous %} disabled{% endif %}">
+            <a href="{% with_query reques.get_absolute_path add page=page.previous_page_number %}">&larr;</a>
+        </li>
+        {% if page.paginator.num_pages > 15 %}
+        <li class="active">
+            <a>{{ page.number }} из {{ page.paginator.num_pages }}</a>
+        </li>
+        {% else %}
+            {% for num in page.paginator.page_range %}
+                <li {% if num == page.number %}class="active"{% endif %}>
+                    <a href="{% with_query reques.get_absolute_path add page=num %}">{{ num }}</a>
+                </li>
+            {% endfor %}
+        {% endif %}
+        <li class="next{% if not page.has_next %} disabled{% endif %}">
+            <a href="{% with_query reques.get_absolute_path add page=page.next_page_number %}">&rarr;</a>
+        </li>
+    </ul>
+</div>
+{% endif %}

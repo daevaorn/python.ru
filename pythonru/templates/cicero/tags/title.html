@@ -1,0 +1,5 @@
+{% load sitetree %}
+
+{% for item in sitetree_items reversed %}
+    {{ item.title_resolved }} &lt;
+{% endfor %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load cicero %}
+
+{% block content %}
+
+{% setnews object_list %}
+
+{% for forum in object_list %}
+    {% if forum.group != "special" %}
+    <div class="topic">
+        <div class="row show-grid">
+            <div class="{% if forum.new %}new {% endif %}span16">
+                <a href="{% url cicero-forum forum.slug %}">{{ forum.slug }}</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}
+
+

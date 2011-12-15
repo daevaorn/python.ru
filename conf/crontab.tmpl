@@ -1,0 +1,7 @@
+
+MAILTO=daevaorn@gmail.com
+
+0 3 * * * %(user)s %(remote_manage)s cleanup
+*/15 * * * * %(user)s %(remote_manage)s index
+*/3 * * * * %(user)s %(remote_manage)s sendmail
+15 * * * * %(user)s %(remote_manage)s updatewhitelist

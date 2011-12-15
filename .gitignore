@@ -1,0 +1,4 @@
+.gitignore
+db.sqlite3
+pythonru/environment_settings.py
+private.yaml

@@ -1,0 +1,29 @@
+{% extends "cicero/profile-base.html" %}
+
+{% load future %}
+
+{% block content %}
+<form action="{% url "cicero.views.change_openid" %}" method="post" class="form-stacked well">
+    {% csrf_token %}
+    <h3>Идентификаци</h3>
+    {% include "cicero/include/form_field.html" with field=openid.openid_identifier %}
+    <div class="buttons"><button type="submit" class="btn primary">Изменить</button></div>
+</form>
+
+{% if profile.user.scipio_profile %}
+<form action="{% url "cicero.views.post_profile" "personal" %}" method="post" class="form-stacked well">
+    {% csrf_token %}
+    <h3>Личные данные</h3>
+    {% include "cicero/include/form_field.html" with field=personal.nickname %}
+    {% include "cicero/include/form_field.html" with field=personal.autoupdate %}
+    <div class="buttons"><button type="submit" class="btn primary">Изменить</button></div>
+</form>
+{% endif %}
+
+<form action="{% url "cicero.views.post_profile" "settings" %}" method="post" class="form-stacked well">
+    {% csrf_token %}
+    <h3>Настройки</h3>
+    {% include "cicero/include/form_field.html" with field=settings.filter %}
+    <div class="buttons"><button type="submit" class="btn primary">Изменить</button></div>
+</form>
+{% endblock %}

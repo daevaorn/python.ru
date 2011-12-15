@@ -1,0 +1,12 @@
+South>=0.7
+html5lib
+markdown2
+
+-e git://github.com/django/django.git#egg=django
+
+-e git://github.com/daevaorn/scipio.git@fixes#egg=scipio
+-e git://github.com/daevaorn/cicero.git@fixes#egg=cicero
+-e git://github.com/daevaorn/pingdjack.git@master#egg=pingdjack
+
+-e git://github.com/daevaorn/django-query-exchange.git#egg=query_exchange
+-e git://github.com/daevaorn/django-sitetree.git@template-variables#egg=sitetree

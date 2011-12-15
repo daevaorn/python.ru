@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load cicero %}
+
+{% block feeds %}
+{{ block.super }}
+    <link rel="alternate" type="application/atom+xml" href="{% url cicero_forum_feed forum.slug %}">
+{% endblock %}
+
+{% block content %}
+
+{% setnews object_list %}
+
+{% for topic in object_list %}
+    <div class="topic">
+        <div class="row show-grid">
+            <div class="span2">
+                {{ topic.created|date:"d.m.Y" }}
+            </div>
+            <div class="{% if topic.new %}new {% endif %}span14">
+                <a href="{% url cicero-topic topic.forum.slug topic.id %}">{{ topic }}</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% include "cicero/include/paginator.html" with page=page_obj %}
+
+    {% include "cicero/include/topic_form.html" %}
+{% endblock %}
+

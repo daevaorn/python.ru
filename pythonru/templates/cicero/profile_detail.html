@@ -1,0 +1,36 @@
+{% extends "cicero/profile-base.html" %}
+
+{% block content %}
+<table id="data">
+    <tr>
+        <th>Имя<td>{{ object.name|default:"(не задано)" }}
+    <tr>
+        <th>OpenID<td>{% if object.user.scipio_profile.openid %}
+<a href="{{ object.user.scipio_profile.openid }}">{{ object.user.scipio_profile.openid }}</a>{% else %}(не задано){% endif %}
+    <tr>
+        <th>Зарегистрирован<td>{{ object.user.date_joined|date:"d.m.Y" }}
+    <tr>
+        <th>Топики<td>{{ object.topics.count }}
+    {% if object.moderator or object.user.is_superuser %}
+        <tr>
+            <th>Специальные права
+            <td>
+                <ul>
+                    {% if object.user.is_superuser %}<li>Админ{% endif %}
+                    {% if object.moderator %}<li>Модератор{% endif %}
+              </ul>
+    {% endif %}
+    {% if object == profile %}
+        <tr>
+            <th>Дополнительно<td>
+                <ul>
+                    <li><a href="{% url deleted_articles %}">Удаленные статьи</a>
+                </ul>
+    {% endif %}
+</table>
+
+{% if object == profile %}
+<a href="{% url cicero.views.edit_profile %}" class="btn primary">Редактировать</a>
+{% endif %}
+
+{% endblock %}

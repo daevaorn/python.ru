@@ -1,0 +1,6 @@
+{% load future %}
+{% if not name %}
+    <a href="{% url "profile" profile.user_id %}">{{ profile }}</a>
+{% else %}
+    {{ name }}
+{% endif %}

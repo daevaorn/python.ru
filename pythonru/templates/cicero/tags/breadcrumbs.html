@@ -1,0 +1,25 @@
+{% load sitetree future %}
+
+{% if sitetree_items|length > 1 %}
+<ul class="breadcrumb">
+    {% for item in sitetree_items|slice:"1:" %}
+        {% if forloop.last %}
+        <li class="active">{{ item.title_resolved }}
+            {% if forloop.counter == 3 and profile.moderator or object_list.0.author == profile %}
+                <form action="{% url "cicero.views.topic_edit" topic.id %}" class="inline pull-right">
+                    <input type="submit" class="btn info" value="Изменить">
+                </form>
+            {% endif %}
+            {% if forloop.counter == 1 and forum %}
+                <form action="{% url "cicero-mark-read-forum" forum.slug %}" class="inline pull-right" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="btn info" value="Отметить прочитанным">
+                </form>
+            {% endif %}
+        </li>
+        {% else %}
+            <li><a href="{% sitetree_url for item %}">{{ item.title_resolved }}</a> <span class="divider">/</span></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}
